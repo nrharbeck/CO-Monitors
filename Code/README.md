@@ -4,4 +4,4 @@ Some of the data cleaning was performed in R, but the output of this code is sav
 
 The preprocessing, models, and GUI are saved as one .py file. Each aspect of the report analysis is included in this code and the comments should help to clarify what each part of the code does.
 
-To run the .py file, the windows.ui file needs to be in the same directory so the user interface works
+To run the .py file, the window.ui file needs to be in the same directory so the user interface works
