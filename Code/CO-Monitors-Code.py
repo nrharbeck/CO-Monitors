@@ -324,6 +324,7 @@ if __name__ == '__main__':
   hoa = COdf[(COdf['HOA'] >= 0)]
   hoa = hoa.groupby('HOA').HOA.count()
   hoa = np.array(hoa)
+  ind = [10,20]
   for i in range(len(hoa)):
       ax1f2.bar(i, hoa[i])
   ax1f2.set_xlabel('Is in a Homeowners Association')
@@ -339,7 +340,7 @@ if __name__ == '__main__':
   yrb_lab = np.array(yrb.index)
   yrb = np.array(yrb)
   for i in range(len(yrb)):
-      ax1f3.bar(i, yrb[i])
+      ax1f3.bar(i, yrb[i], color='blue')
   ax1f3.set_xticks([0,1,2,3,4,5,6,7,8,9,10,11])
   ax1f3.set_xticklabels(yrb_lab)
   ax1f3.set_xlabel('Year Home Built')
@@ -349,7 +350,8 @@ if __name__ == '__main__':
   fig4 = Figure()
   ax1f4 = fig4.add_subplot(111)
   ax1f4.set_xlabel('Monthly Rent Amount')
-  ax1f4.set_ylabel('USD')
+  ax1f4.set_ylabel('Count')
+  ax1f4.set_xlabel('Rent Amount')
   rent = COdf[(COdf['RENT']) >=0]
   rent = rent.groupby('RENT').RENT.count()
   fig4.suptitle('HH: Rent')
@@ -358,7 +360,7 @@ if __name__ == '__main__':
   fig5 = Figure()
   ax1f5 = fig5.add_subplot(111)
   ax1f5.set_ylabel('Count')
-  ax1f4.set_xlabel('Under Rent Control')
+  ax1f5.set_xlabel('Under Rent Control')
   rentctrl = COdf[(COdf['RENTCNTRL']) >=0]
   rentctrl = rentctrl.groupby('RENTCNTRL').RENTCNTRL.count()
   rentctrl = np.array(rentctrl)
@@ -376,89 +378,125 @@ if __name__ == '__main__':
   hhmar = hhmar.groupby('HHMAR').HHMAR.count()
   hhmar = np.array(hhmar)
   for i in range(len(hhmar)):
-      ax1f6.bar(i, hhmar[i])
+      ax1f6.bar(i, hhmar[i], color='blue')
   ax1f6.set_xticks([0,1,2,3,4,5])
-  ax1f6.set_xticklabels(['Married.p', 'Married.a','Widowed','Divorced','Separated','NM'])
+  ax1f6.set_xticklabels(['Married (spouse present)', 'Married (spouse absent)','Widowed','Divorced','Separated','Not Married'], fontsize=8)
   fig6.suptitle('HH: Marital Status')
 
   fig7 = Figure()
   ax1f7 = fig7.add_subplot(111)
+  ax1f7.set_ylabel('Count')
+  ax1f7.set_xlabel('Educational Level')
   grad = COdf[(COdf['HHGRAD']) >=0]
   grad = grad.groupby('HHGRAD').HHGRAD.count()
   grad = np.array(grad)
   for i in range(len(grad)):
-      ax1f7.bar(i, grad[i])
+      ax1f7.bar(i, grad[i], color='blue')
   ax1f7.set_xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])
-  ax1f7.set_xticklabels(['<1st Gr.', '1-4 Gr.', '5-6 Gr.', '7-8 Gr.', '9 Gr.', '10th Gr.', '11 Gr.', '12 Gr.', 'HS/GED', 'Some College', 'Technical', 'Assoc./Voc.', 'Assc.', 'Bachelors', 'Masters','MD/JD/etc.', 'Doctorate'])
+  ax1f7.set_xticklabels(['<1st Gr.', '1-4 Gr.', '5-6 Gr.', '7-8 Gr.', '9 Gr.', '10th Gr.', '11 Gr.', '12 Gr.', 'HS/GED', 'Some College', 'Technical', 'Assoc./Voc.', 'Assc.', 'Bachelors', 'Masters','MD/JD/etc.', 'Doctorate'], rotation=45, ha="right", fontsize=8)
   fig7.suptitle('HH: Education Lvl')
 
   fig8 = Figure()
   ax1f8 = fig8.add_subplot(111)
+  ax1f8.set_ylabel('Count')
+  ax1f8.set_xlabel('Race')
   race = COdf[(COdf['HHRACE']) >= 0]
   race = race.groupby('HHRACE').HHRACE.count()
   race = np.array(race)
-  r_other = np.array(sum(race[4:]))
-  race = np.append(race[0:3], r_other) # NOTE: I COLLAPSED ALL RACES (low n) so this is WHITE, BLACK, NAT. AMER., AND ASIAN, + OTHERS.
+  r_other = np.array(sum(race[5:]))
+  race = np.append(race[0:4], r_other) # NOTE: I COLLAPSED ALL RACES (low n) so this is WHITE, BLACK, NAT. AMER., AND ASIAN, + OTHERS.
   for i in range(len(race)):
-      ax1f8.bar(i, race[i])
+      ax1f8.bar(i, race[i], color='blue')
+  ax1f8.set_xticks([0,1,2,3,4])
+  ax1f8.set_xticklabels(['White','Black','Native American','Asian','Other'], fontsize=8)
   fig8.suptitle('HH: Race')
 
   fig9 = Figure()
   ax1f9 = fig9.add_subplot(111)
+  ax1f9.set_ylabel('Count')
+  ax1f9.set_xlabel('Interview Language')
   lang = COdf[(COdf['INTLANG']) >=0]
   lang = lang.groupby('INTLANG').INTLANG.count()
   lang = np.array(lang)
   for i in range(len(lang)):
-      ax1f9.bar(i, lang[i])
+      ax1f9.bar(i, lang[i], color='blue')
+  ax1f9.set_xticks([0,1,2])
+  ax1f9.set_xticklabels(['English','Spanish','Other'])
   fig9.suptitle('HH: Language')
 
   fig10 = Figure()
   ax1f10 = fig10.add_subplot(111)
+  ax1f10.set_ylabel('Count')
+  ax1f10.set_xlabel('Heating Equipment Type')
   heat = COdf[(COdf['HEATTYPE']) >=0]
   heat = heat.groupby('HEATTYPE').HEATTYPE.count()
   heat = np.array(heat)
   for i in range(len(heat)):
-      ax1f10.bar(i, heat[i])
+      ax1f10.bar(i, heat[i], color='blue')
+  ax1f10.set_xticks([0,1,2,3,4,5,6,7,8,9,10,11,12,13])
+  ax1f10.set_xticklabels(['Forced Air','Steam','Electric HP','Baseboard','Pipeless Furnace','Vented RH','Unvented RH','Potable Electric','Wood','Fireplace w/Inserts','Fireplace w/Out','Other','None','Cooking Stove'],rotation=45, ha="right", fontsize=8)
   fig10.suptitle('CO: Heat Type')
 
   fig11 = Figure()
   ax1f11 = fig11.add_subplot(111)
+  ax1f11.set_ylabel('Count')
+  ax1f11.set_xlabel('Heating Fuel Types')
   heatfuel = COdf[(COdf['HEATFUEL']) >=0]
   heatfuel = heatfuel.groupby('HEATFUEL').HEATFUEL.count()
   heatfuel = np.array(heatfuel)
   for i in range(len(heatfuel)):
-      ax1f11.bar(i, heatfuel[i])
+      ax1f11.bar(i, heatfuel[i], color='blue')
+  ax1f11.set_xticks([0,1,2,3,4,5,6,7,8,9])
+  ax1f11.set_xticklabels(['Electricity','Piped Gas','LP Gas','Fuel Oil','Kerosine','Coal','Wood','Solar','Other','None'], rotation=45, ha="right")
   fig11.suptitle('CO: Heat Fuel')
 
   fig12 = Figure()
   ax1f12 = fig12.add_subplot(111)
+  ax1f12.set_ylabel('Count')
+  ax1f12.set_xlabel('Water Heater Types')
   hotwater = COdf[(COdf['HOTWATER']) >=0]
   hotwater = hotwater.groupby('HOTWATER').HOTWATER.count()
   hotwater = np.array(hotwater)
   for i in range(len(hotwater)):
-      ax1f12.bar(i, hotwater[i])
+      ax1f12.bar(i, hotwater[i], color='blue')
+  ax1f12.set_xticks([0,1,2,3,4,5,6])
+  ax1f12.set_xticklabels(['Electric','Piped Gas','LP Gas','Fuel Oil','Solar','Other','None'], rotation=45, ha="right")
   fig12.suptitle('CO: Water Heater Type')
 
   fig13 = Figure()
   ax1f13 = fig13.add_subplot(111)
+  ax1f13.set_ylabel('Count')
+  ax1f13.set_xlabel('Primary AC Type')
   acp = COdf[(COdf['ACPRIMARY']) >=0]
   acp = acp.groupby('ACPRIMARY').ACPRIMARY.count()
+  ac_conditioners = np.array(sum(acp[5:11])) # Collapsed the numbers of room conditioners.
+  acp = np.append(acp[[1,2,3,4,12]], ac_conditioners)
   acp = np.array(acp)
   for i in range(len(acp)):
-      ax1f13.bar(i, acp[i])
+      ax1f13.bar(i, acp[i], color='blue')
+  ax1f13.set_xticks([0,1,2,3,4,5])
+  ax1f13.set_xticklabels(['Electric','Piped Gas','LP Gas','Other','No AC','Room Conditioner(s)'], fontsize=8)
   fig13.suptitle('CO: Primary Air Conditioning')
 
   fig14 = Figure()
   ax1f14 = fig14.add_subplot(111)
+  ax1f14.set_ylabel('Count')
+  ax1f14.set_xlabel('Secondary AC Type')
   acs = COdf[(COdf['ACSECNDRY']) >=0]
   acs = acs.groupby('ACSECNDRY').ACSECNDRY.count()
+  acs_conditioners = np.array(sum(acp[5:11]))  # Collapsed the numbers of room conditioners.
+  acs = np.append(acs[[1, 2, 3, 4, 12]], acs_conditioners)
   acs = np.array(acs)
   for i in range(len(acs)):
-      ax1f14.bar(i, acs[i])
+      ax1f14.bar(i, acs[i], color='blue')
+  ax1f14.set_xticks([0, 1, 2, 3, 4, 5])
+  ax1f14.set_xticklabels(['Electric', 'Piped Gas', 'LP Gas', 'Other', 'No Secondary', 'Room Conditioner(s)'], fontsize=8)
   fig14.suptitle('CO: Secondary Air Conditioning')
 
   fig15 = Figure()
   ax1f15 = fig15.add_subplot(111)
+  ax1f15.set_xlabel('Reported Income')
+  ax1f15.set_ylabel('USD')
   income = COdf[(COdf['HINCP']) >=0]
   income = income[['HINCP']]
   ax1f15.boxplot(income.values)
